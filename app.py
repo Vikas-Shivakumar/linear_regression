@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # Load model
-with open('full_pipeline.pkl', 'rb') as f:
+with open('full_pipeline', 'rb') as f:
     model = pickle.load(f)
 
 st.set_page_config(page_title="Loan Prediction", page_icon="💰", layout="centered")
