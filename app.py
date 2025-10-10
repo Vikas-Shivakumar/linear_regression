@@ -25,12 +25,25 @@ if st.button("Predict"):
         'Credit_History': [Credit_History]
     })
 
-    prediction = model.predict(input_df)[0]
+    # Make prediction
+    try:
+        score = model.predict(input_df)[0]  # regression output (e.g. 0.72)
 
-    if prediction == 1:
-        st.success("✅ Loan Approved")
-    else:
-        st.error("❌ Loan Rejected")
+        if score > 0.5:
+            result = "✅ Loan Approved"
+            color = "green"
+        else:
+            result = "❌ Loan Rejected"
+            color = "red"
 
-    st.subheader("Entered Details")
-    st.write(input_df)
+        # Display result
+        st.markdown(f"<h2 style='text-align:center; color:{color};'>{result}</h2>", unsafe_allow_html=True)
+        st.metric(label="Predicted Score", value=f"{score:.3f}")
+
+        # Display user input for transparency
+        st.subheader("Entered Details")
+        st.dataframe(input_df)
+
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
+
